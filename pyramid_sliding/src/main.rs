@@ -23,7 +23,7 @@ fn main() {
             let start = std::time::Instant::now();
             let result = slide_down_df_memo(pyramid.clone());
             let run_time = start.elapsed();
-            print!("depth-first result: {}, elapsed time: ", result);
+            print!("depth-first (with memoization) result: {}, elapsed time: ", result);
             print_duration(run_time);
             println!();
         }
