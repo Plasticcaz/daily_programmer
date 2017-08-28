@@ -28,7 +28,7 @@ import "fmt"
 
 func main() {
 	// Read in 'n'
-	fmt.Print("Enter number or rows/columns: ")
+	fmt.Print("Enter number of rows/columns: ")
 	var n int
 	_, error := fmt.Scanln(&n)
 	if error != nil {
