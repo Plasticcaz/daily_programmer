@@ -1,6 +1,8 @@
 [/r/dailyprogrammer - Pyramid Sliding](https://www.reddit.com/r/dailyprogrammer/comments/6vi9ro/170823_challenge_328_intermediate_pyramid_sliding/)
 
-Written in Rust.
+Written in [Rust](https://www.rust-lang.org/en-US/).
+
+To run, assuming you have Rust installed, type "cargo run --release PATH_TO_DATA_FILE", where PATH_TO_DATA_FILE is the path to some test data in the required format (the --release flag, will ensure that the compiler optimizes, giving better performance than debug mode).
 
 Test data can be found in the '/pyramids/' folder.
 
