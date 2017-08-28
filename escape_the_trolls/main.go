@@ -4,6 +4,11 @@ import (
 	"github.com/nsf/termbox-go"
 )
 
+type Vec2 struct {
+	X int
+	Y int
+}
+
 func main() {
 	err := termbox.Init();
 	if (err != nil) {
@@ -12,19 +17,30 @@ func main() {
 	defer termbox.Close();
 
 	running := true
-	xPos := 3;
+	var pos Vec2
+	playerRune := 'V'
 	for running {
-		e := termbox.PollEvent()
-		if e.Key == termbox.KeyEsc {
+		event := termbox.PollEvent()
+		if event.Key == termbox.KeyEsc {
 			running = false
-		} 
-		if e.Key == termbox.KeyArrowRight {
-			xPos++
+		} else {
+			switch event.Ch {
+				case 'd':
+					playerRune = '>'
+					pos.X++
+				case 'a':
+					playerRune = '<'
+					pos.X--
+				case 's':
+					playerRune = 'V'
+					pos.Y++
+				case 'w':
+					playerRune = '^'
+					pos.Y--
+			}
 		}
-		termbox.Clear(termbox.ColorBlack, termbox.ColorBlack);
-		buffer := termbox.CellBuffer()
-		buffer[xPos].Fg = termbox.ColorBlue
-		buffer[xPos].Ch = 'X'
+		termbox.Clear(termbox.ColorBlack, termbox.ColorMagenta);
+		termbox.SetCell(pos.X, pos.Y, playerRune, termbox.ColorBlack, termbox.ColorWhite)
 
 		termbox.Flush();
 	}
