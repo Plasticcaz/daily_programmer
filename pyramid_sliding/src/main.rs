@@ -21,7 +21,7 @@ fn main() {
             println!();
 
             let start = std::time::Instant::now();
-            let result = slide_down_depth_first(&pyramid);
+            let result = slide_down_df_memo(pyramid.clone());
             let run_time = start.elapsed();
             print!("depth-first result: {}, elapsed time: ", result);
             print_duration(run_time);
@@ -56,6 +56,55 @@ fn slide_down_greedily(pyramid: &Pyramid) -> usize {
     total_cost
 }
 
+/// Explore every path down the pyramid, checking to find the best path, with memoization.
+fn slide_down_df_memo(mut pyramid: Pyramid) -> usize {
+    let mut visited = vec![false; pyramid.data.len()];
+    /// Helper function that hides the complexity from the outside world.
+    fn depth_first(pyramid: &mut Pyramid, visited: &mut[bool], current: &Location) -> usize {
+        let this_cost = cost_of(pyramid, current);
+        // Base case: We have reached the lowest level.
+        let cost = if current.level == pyramid.height-1 {
+            this_cost
+        }
+        else {
+            let right = right_choice(current);
+            let r_index = index(&right);
+            let right_cost = if !visited[r_index] {
+                visited[r_index] = true;
+                let cost = depth_first(pyramid, visited, &right);
+                pyramid.data[r_index] = cost;
+                cost
+            } else {
+                cost_of(pyramid, &right)
+            };
+
+            let left = left_choice(current);
+            let l_index = index(&left);
+            let left_cost = if !visited[l_index] {
+                visited[l_index] = true;
+                let cost = depth_first(pyramid, visited, &left);
+                pyramid.data[l_index] = cost;
+                cost
+            } else {
+                cost_of(pyramid, &left)
+            };
+
+
+            let best = if left_cost < right_cost {
+                left_cost
+            } else {
+                right_cost
+            };
+            best + this_cost
+        };
+
+        cost
+    }
+
+    let current = Location { level: 0, block: 0};
+    depth_first(&mut pyramid, &mut visited, &current)
+} 
+
 /// Explore every path down the pyramid, checking to find the best path.
 fn slide_down_depth_first(pyramid: &Pyramid) -> usize {
     /// Helper function that hides the complexity from the outside world.
@@ -83,6 +132,7 @@ fn slide_down_depth_first(pyramid: &Pyramid) -> usize {
     let current = Location { level: 0, block: 0};
     depth_first(pyramid, &current)
 }
+
 
 /// Print the duration as seconds in decimal.
 fn print_duration(duration: std::time::Duration) {

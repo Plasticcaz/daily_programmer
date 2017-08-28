@@ -3,6 +3,7 @@
 use std;
 
 /// A struct that represents a pyramid held in memory.
+#[derive(Clone)]
 pub struct Pyramid {
     /// The actual pyramid data packed into a 1-dimensional array.
     /// Each level contains the one more item that it's level number.
@@ -85,7 +86,7 @@ pub fn cost_of(pyramid: &Pyramid, location: &Location) -> usize {
 }
 
 /// Get the 1d-array index of the specified location.
-fn index(location: &Location) -> usize {
+pub fn index(location: &Location) -> usize {
     let mut index = 0;
     for level in 0..location.level {
         index += level_width(level);
