@@ -1,2 +1,5 @@
+# Golang
 debug
 *.exe
+# Rust
+*/target

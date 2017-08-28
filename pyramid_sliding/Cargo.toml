@@ -1,0 +1,6 @@
+[package]
+name = "pyramid_sliding"
+version = "0.1.0"
+authors = ["Zac Winter <plasticcaz@gmail.com>"]
+
+[dependencies]
