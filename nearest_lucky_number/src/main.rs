@@ -1,13 +1,32 @@
 fn main() {
-    println!("Hello, world!");
     let start = std::time::Instant::now();
+
+    find_lucky(103);
+    find_lucky(225);
+    find_lucky(997);
+
     let lucky_numbers = gen_lucky_nums(1_000_000);
     let time = start.elapsed();
     println!("{:?}", lucky_numbers);
     print!("Total time: ");
     print_duration(time);
     println!();
+}
 
+fn find_lucky(n: usize) {
+    let num_to_gen = n + (0.1 * (n as f32) ) as usize;
+    let lucky_numbers = gen_lucky_nums(num_to_gen);
+    let mut i = 0;
+    while lucky_numbers[i] < n {
+        i += 1;
+    }
+    
+    if lucky_numbers[i] == n {
+        println!("{} is a lucky number", n);
+    }
+    else {
+        println!("{} < {} < {}", lucky_numbers[i-1], n, lucky_numbers[i]);
+    }
 }
 
 /// Generate all the "lucky" numbers from 1 to n.
